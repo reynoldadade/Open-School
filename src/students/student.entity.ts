@@ -1,4 +1,5 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { StudentCategory } from "./../student-category/student-category.entity";
 
 @Entity()
 export class Student extends BaseEntity {
@@ -30,15 +31,19 @@ export class Student extends BaseEntity {
     @Column()
     contactMail: string;
 
+    @ManyToOne(type => StudentCategory, studentCategory => studentCategory.students, {eager: false})
+    category: StudentCategory;
+
     @CreateDateColumn({
         type: 'timestamp',
-        name: 'create_date',
         default: () => 'LOCALTIMESTAMP' })
     createDate: string;
 
     @UpdateDateColumn({
         type: 'timestamp',
-        name: 'update_date',
         default: () => 'LOCALTIMESTAMP' })
     updateDate: string;
+
+    @Column()
+    categoryId: number;
 }

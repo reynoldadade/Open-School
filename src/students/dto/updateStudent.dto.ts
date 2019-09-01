@@ -1,19 +1,8 @@
-import {ApiModelProperty, ApiModelPropertyOptional} from '@nestjs/swagger';
+import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { IsNotEmpty } from 'class-validator';
 import { StudentCategory } from './../../student-category/student-category.entity';
-import {IsNotEmpty} from 'class-validator';
 
-export class AddStudentDto {
-
-    @ApiModelProperty()
-    @IsNotEmpty()
-    firstName: string;
-
-    @ApiModelProperty()
-    @IsNotEmpty()
-    lastName: string;
-
-    @ApiModelPropertyOptional()
-    otherNames: string;
+export class UpdateStudentDto {
 
     @ApiModelProperty({type: 'string', format: 'date-time'})
     @IsNotEmpty()

@@ -1,20 +1,22 @@
 import { Repository, EntityRepository } from 'typeorm';
+import { StudentCategoryService } from './../student-category/student-category.service';
 import { AddStudentDto } from './dto/students.dto';
 import { Student } from './student.entity';
-import { Logger } from '@nestjs/common';
+import { Logger, ConflictException, InternalServerErrorException } from '@nestjs/common';
+import { throwError } from 'rxjs';
 
 @EntityRepository(Student)
 export class StudentRepository extends Repository<Student> {
     private logger = new Logger('StudentRepository');
-
-    async getStudent(): Promise<Student[]> {
+    async getStudents(): Promise<Student[]> {
         const query = this.createQueryBuilder('student');
 
         try {
             const students = await query.getMany();
             return students;
         } catch (error) {
-            console.log(error);
+            this.logger.error('Unable to find students', error.stack);
+            throw new InternalServerErrorException('Failed to retrieve from student database');
         }
     }
 
@@ -28,8 +30,10 @@ export class StudentRepository extends Repository<Student> {
             contactMobile,
             address,
             contactMail,
+            category,
         } = addStudentDto;
 
+        // const category = await new studentCategoryService.getCategoryById(studentCategoryId);
         const student = new Student();
 
         student.firstName = firstName;
@@ -40,6 +44,7 @@ export class StudentRepository extends Repository<Student> {
         student.contactMobile = contactMobile;
         student.contactMail = contactMail;
         student.address = address;
+        student.category = category;
 
         // saving new student
 
@@ -47,8 +52,9 @@ export class StudentRepository extends Repository<Student> {
             await student.save();
             return student;
         } catch (error) {
-            this.logger.error(`Failed to add  a student for Data: ${JSON.stringify(addStudentDto)}`);
-        }
+            this.logger.error(`Failed to add  a student for Data: ${JSON.stringify(addStudentDto)}`, error.stack);
+            throw new ConflictException('Failed to create a new student');
+             }
     }
 
 }
