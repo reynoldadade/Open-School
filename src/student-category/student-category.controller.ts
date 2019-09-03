@@ -27,14 +27,14 @@ export class StudentCategoryController {
     }
 
     @Get()
-    getCategories(): Promise<StudentCategory[]> {
+    getCategories(): Promise<Partial<StudentCategory[]>> {
         return this.studentCategoryService.getAllCategories();
     }
 
     @Delete(':id')
     deleteCategoryById(
         @Param('id', ParseIntPipe) id: number,
-    ): Promise<void>{
+    ): Promise<void> {
         return this.studentCategoryService.deleteCategoryById(id);
     }
 
@@ -42,7 +42,7 @@ export class StudentCategoryController {
     updateCategories(
         @Param('id', ParseIntPipe) id: number,
         @Body() addStudentCategoryDto: AddStudentCategoryDto,
-    ){
-        return this.studentCategoryService.updateCategory(id, addStudentCategoryDto)
+    ) {
+        return this.studentCategoryService.updateCategory(id, addStudentCategoryDto);
     }
 }

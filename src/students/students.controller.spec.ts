@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { StudentsController } from './students.controller';
+import { StudentsService } from './students.service';
 
 describe('Students Controller', () => {
   let controller: StudentsController;
@@ -13,6 +14,6 @@ describe('Students Controller', () => {
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(controller).not.toBeDefined();
   });
 });

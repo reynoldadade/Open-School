@@ -25,7 +25,7 @@ export class StudentCategoryService {
         return found;
     }
 
-    async getAllCategories(): Promise<StudentCategory[]> {
+    async getAllCategories(): Promise<Partial<StudentCategory[]>> {
         return this.studentCategoryRepository.getCategories();
     }
 
