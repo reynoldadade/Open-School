@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
@@ -12,8 +12,7 @@ async function bootstrap() {
     .setTitle('Open Class')
     .setDescription('API description for task management Apps')
     .setVersion('1.0')
-    .addTag('School')
-    // .addBearerAuth()
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
