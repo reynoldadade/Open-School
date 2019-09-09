@@ -3,9 +3,9 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthRepository } from './auth.repository';
-import { PassportModule} from '@nestjs/passport';
+import { PassportModule } from '@nestjs/passport';
 import { constants } from '../constants';
-import {JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 
 @Module({
@@ -19,15 +19,10 @@ import { JwtStrategy } from './jwt.strategy';
         expiresIn: constants.tokenExpiresIn,
       },
     }),
-    TypeOrmModule.forFeature([AuthRepository])],
-  providers: [
-    AuthService,
-    JwtStrategy,
+    TypeOrmModule.forFeature([AuthRepository]),
   ],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
-  exports: [
-    JwtStrategy,
-    PassportModule,
-  ],
+  exports: [JwtStrategy, PassportModule, JwtService],
 })
 export class AuthModule {}
